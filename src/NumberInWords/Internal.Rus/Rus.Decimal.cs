@@ -84,7 +84,7 @@ partial class NumberInWordsRus
             roundedNumber = Math.Round(
                 d: number,
                 decimals: decimals,
-                mode: MidpointRounding.AwayFromZero);
+                mode: MidpointRounding.ToZero);
         }
 
         var numberAsString = roundedNumber.ToString($"N{decimals}", CultureInfo.InvariantCulture);
