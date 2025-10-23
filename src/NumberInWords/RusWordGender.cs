@@ -1,13 +1,10 @@
-#nullable enable
+namespace GarageGroup;
 
-namespace GGroupp
+public enum RusWordGender
 {
-    public enum RusWordGender
-    {
-        Masculine,
+    Masculine,
 
-        Feminine,
+    Feminine,
 
-        Neuter
-    }
+    Neuter
 }

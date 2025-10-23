@@ -2,10 +2,6 @@ name: .NET
 
 on:
   push:
-    branches: [ main ]
-    
-  pull_request:
-    branches: [ main ]
 
 jobs:
   build:
@@ -13,13 +9,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
     - name: Setup .NET
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 5.0.x
-        
-     # Add NuGet Sources
+        dotnet-version:
+          8.0.x
+          9.0.x
+
+    # Add NuGet Sources
 
     - name: Create Local NuGet Directory
       run: mkdir ~/nuget
@@ -27,12 +27,17 @@ jobs:
     - name: Add Local Nuget Source
       run: dotnet nuget add source ~/nuget
 
-    - name: Add GGroupp NuGet Source
-      run: dotnet nuget add source ${{ secrets.GGROUPP_NUGET_SOURCE_URL }} -n ggroupp -u ${{ secrets.GGROUPP_NUGET_SOURCE_USER_NAME }} -p ${{ secrets.GGROUPP_NUGET_SOURCE_USER_PASSWORD }} --store-password-in-clear-text
+    - name: Add Garage Group NuGet Source
+      run: >
+        dotnet nuget add source ${{ vars.GG_NUGET_SOURCE_URL }}
+        -n garage
+        -u ${{ secrets.GG_NUGET_SOURCE_USER_NAME }}
+        -p ${{ secrets.GG_NUGET_SOURCE_USER_PASSWORD }}
+        --store-password-in-clear-text
 
     # NumberInWords
-    
-    - name: Restore NumberInWords
+
+    - name: NumberInWords
       run: dotnet restore ./src/*/NumberInWords.csproj
 
     - name: Build NumberInWords
@@ -40,15 +45,18 @@ jobs:
 
     - name: Pack NumberInWords
       run: dotnet pack ./src/*/NumberInWords.csproj --no-restore -o ~/nuget  -c Release
-      
-    - name: Restore NumberInWords.Tests
-      run: dotnet restore ./src/*/NumberInWords.Tests.csproj
 
-    - name: Test NumberInWords.Tests
-      run: dotnet test ./src/*/NumberInWords.Tests.csproj --no-restore  -c Release
-      
+    # NumberInWords.Test
+
+    - name: Test NumberInWords
+      run: dotnet test ./src/*/NumberInWords.Test.csproj -c Release
+
     # Push
-      
+
     - name: Push Packages
-      if: ${{ github.event_name == 'push' }}
-      run: dotnet nuget push "../../../nuget/*.nupkg" -s ${{ secrets.GGROUPP_NUGET_SOURCE_URL }} -k ${{ secrets.GGROUPP_NUGET_SOURCE_USER_PASSWORD }} --skip-duplicate
+      if: ${{ github.ref == 'refs/heads/main' }}
+      run: >
+        dotnet nuget push "../../../nuget/*.nupkg"
+        -s ${{ vars.GG_NUGET_SOURCE_URL }}
+        -k ${{ secrets.GG_NUGET_SOURCE_USER_PASSWORD }}
+        --skip-duplicate

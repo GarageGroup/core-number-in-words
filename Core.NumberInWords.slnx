@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="src/NumberInWords/NumberInWords.csproj" />
+  <Project Path="src/NumberInWords.Test/NumberInWords.Test.csproj" />
+</Solution>
