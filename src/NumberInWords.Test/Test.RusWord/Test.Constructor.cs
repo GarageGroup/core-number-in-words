@@ -1,9 +1,7 @@
-#nullable enable
-
 using Xunit;
 using static PrimeFuncPack.UnitTest.TestData;
 
-namespace GGroupp.Core.Tests
+namespace GarageGroup.Core.Test
 {
     partial class RusWordTest
     {
@@ -15,7 +13,8 @@ namespace GGroupp.Core.Tests
         [InlineData("рубль", "рубля", null, RusWordGender.Masculine)]
         [InlineData("рубль", null, "Рублей", RusWordGender.Neuter)]
         [InlineData("рубль", EmptyString, "Рублей", RusWordGender.Masculine)]
-        public void New_AllFormsAreCorrect(string nominative, string genitiveSingular, string genitivePlural, RusWordGender gender)
+        public void Constructor_AllFormsAreCorrect(
+            string? nominative, string? genitiveSingular, string? genitivePlural, RusWordGender gender)
         {
             var rusWord = new RusWord(
                 nominative: nominative,
