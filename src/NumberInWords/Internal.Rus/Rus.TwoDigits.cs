@@ -17,18 +17,18 @@ partial class NumberInWordsRus
             return textBuilder;
         }
 
-        if ((twoDigits > Ten) && (twoDigits < Twenty))
+        if ((twoDigits > InternalNumberInWords.Ten) && (twoDigits < InternalNumberInWords.Twenty))
         {
-            return textBuilder.AppendWithSpace(Elevens[twoDigits - Ten - 1]);
+            return textBuilder.AppendWithSpace(Elevens[twoDigits - InternalNumberInWords.Ten - 1]);
         }
 
-        var highDigit = twoDigits / Ten;
+        var highDigit = twoDigits / InternalNumberInWords.Ten;
         if (highDigit > 0)
         {
             textBuilder = textBuilder.AppendWithSpace(Tens[highDigit - 1]);
         }
 
-        var lowDigit = twoDigits % Ten;
+        var lowDigit = twoDigits % InternalNumberInWords.Ten;
         if (lowDigit > 0)
         {
             textBuilder = textBuilder.AppendWithSpace(GetTextDigit(lowDigit, wordGender));
@@ -39,12 +39,12 @@ partial class NumberInWordsRus
 
     private static string GetDimensionText(ushort twoDigits, RusWord dimensionWord)
     {
-        if (twoDigits >= Ten && twoDigits < Twenty)
+        if (twoDigits >= InternalNumberInWords.Ten && twoDigits < InternalNumberInWords.Twenty)
         {
             return dimensionWord.GenitivePlural;
         }
 
-        var lowDigit = twoDigits % Ten;
+        var lowDigit = twoDigits % InternalNumberInWords.Ten;
         if ((lowDigit >= 2) && (lowDigit <= 4))
         {
             return dimensionWord.GenitiveSingular;

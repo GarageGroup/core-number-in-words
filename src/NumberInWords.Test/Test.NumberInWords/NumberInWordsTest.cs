@@ -20,6 +20,22 @@ public sealed partial class NumberInWordsTest
             "стомиллиардная"
         ];
 
+    private static readonly string[] EngFractExpectedValues
+        =
+        [
+            "tenth",
+            "hundredth",
+            "thousandth",
+            "ten-thousandth",
+            "hundred-thousandth",
+            "millionth",
+            "ten-millionth",
+            "hundred-millionth",
+            "billionth",
+            "ten-billionth",
+            "hundred-billionth"
+        ];
+
     public static TheoryData<decimal, byte, string> GetMaxFractMemberData()
     {
         var data = new TheoryData<decimal, byte, string>();
@@ -29,6 +45,20 @@ public sealed partial class NumberInWordsTest
         {
             number *= 0.1m;
             data.Add(number, (byte)(i + 1), $"ноль целых одна {FractExpectedValues[i]}");
+        }
+
+        return data;
+    }
+
+    public static TheoryData<decimal, byte, string> GetEnglishMaxFractMemberData()
+    {
+        var data = new TheoryData<decimal, byte, string>();
+        var number = 1m;
+
+        for (var i = 0; i < EngFractExpectedValues.Length; i++)
+        {
+            number *= 0.1m;
+            data.Add(number, (byte)(i + 1), $"zero whole one {EngFractExpectedValues[i]}");
         }
 
         return data;

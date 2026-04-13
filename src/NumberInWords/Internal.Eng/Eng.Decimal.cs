@@ -5,9 +5,9 @@ using System.Text;
 
 namespace GarageGroup;
 
-partial class NumberInWordsRus
+partial class NumberInWordsEng
 {
-    public static string BuildRusText(decimal number, byte decimals, RusWord? intWord, RusWord? fractWord, bool fractRequired)
+    public static string BuildEngText(decimal number, byte decimals, EngWord? intWord, EngWord? fractWord, bool fractRequired)
     {
         ArgumentOutOfRangeException.ThrowIfGreaterThan(decimals, MaxDecimals, paramName: nameof(decimals));
 
@@ -41,9 +41,9 @@ partial class NumberInWordsRus
     }
 
     private static StringBuilder Append(
-        this StringBuilder textBuilder, IEnumerator<uint> threeDigitNumbers, IEnumerator<RusWord> dimensionsWords, bool isEnd)
+        this StringBuilder textBuilder, IEnumerator<uint> threeDigitNumbers, IEnumerator<EngWord> dimensionsWords, bool isEnd)
     {
-        var dimensionWord = dimensionsWords.MoveNext() ? dimensionsWords.Current : EmptyRusWord;
+        var dimensionWord = dimensionsWords.MoveNext() ? dimensionsWords.Current : EmptyEngWord;
         if (threeDigitNumbers.MoveNext() is false)
         {
             return textBuilder;
@@ -53,23 +53,23 @@ partial class NumberInWordsRus
         return textBuilder.Append(threeDigitNumbers, dimensionsWords, false).AppendThreeDigitsNumber(threeDigitNumber, dimensionWord, isEnd);
     }
 
-    private static IEnumerator<RusWord> GetIntDimensions(bool hasFractional, RusWord? intWord)
+    private static IEnumerator<EngWord> GetIntDimensions(bool hasFractional, EngWord? intWord)
     {
-        var dimensionsWords = new RusWord[Words.Length + 1];
+        var dimensionsWords = new EngWord[Words.Length + 1];
 
-        var word = intWord ?? EmptyRusWord;
-        dimensionsWords[0] = word == EmptyRusWord && hasFractional ? DefaultIntWord : word;
+        var word = intWord ?? EmptyEngWord;
+        dimensionsWords[0] = word == EmptyEngWord && hasFractional ? DefaultIntWord : word;
 
         Array.Copy(Words, 0, dimensionsWords, 1, Words.Length);
         return dimensionsWords.AsEnumerable().GetEnumerator();
     }
 
-    private static IEnumerator<RusWord> GetFractDimensions(byte decimals, RusWord? fractWord)
+    private static IEnumerator<EngWord> GetFractDimensions(byte decimals, EngWord? fractWord)
     {
-        var fractDimensionsWords = new RusWord[Words.Length + 1];
+        var fractDimensionsWords = new EngWord[Words.Length + 1];
 
-        var word = fractWord ?? EmptyRusWord;
-        fractDimensionsWords[0] = word == EmptyRusWord ? DefaultFractWords[decimals - 1] : word;
+        var word = fractWord ?? EmptyEngWord;
+        fractDimensionsWords[0] = word == EmptyEngWord ? DefaultFractWords[decimals - 1] : word;
 
         Array.Copy(Words, 0, fractDimensionsWords, 1, Words.Length);
         return fractDimensionsWords.AsEnumerable().GetEnumerator();

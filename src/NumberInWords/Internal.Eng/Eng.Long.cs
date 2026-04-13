@@ -3,12 +3,12 @@ using System.Text;
 
 namespace GarageGroup;
 
-partial class NumberInWordsRus
+partial class NumberInWordsEng
 {
     private static StringBuilder Append(
-        this StringBuilder textBuilder, ulong number, IEnumerator<RusWord> dimensionsWords, bool isEnd)
+        this StringBuilder textBuilder, ulong number, IEnumerator<EngWord> dimensionsWords, bool isEnd)
     {
-        var dimensionWord = dimensionsWords.MoveNext() ? dimensionsWords.Current : new(default, default, default, default);
+        var dimensionWord = dimensionsWords.MoveNext() ? dimensionsWords.Current : new(default, default);
 
         var threeDigitNumber = number % InternalNumberInWords.Thousand;
         var lostNumber = number / InternalNumberInWords.Thousand;
@@ -17,6 +17,7 @@ partial class NumberInWordsRus
         {
             textBuilder = textBuilder.Append(lostNumber, dimensionsWords, false);
         }
+
         return textBuilder.AppendThreeDigitsNumber((uint)threeDigitNumber, dimensionWord, isEnd);
     }
 }

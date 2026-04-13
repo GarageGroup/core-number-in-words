@@ -4,16 +4,6 @@ internal static partial class NumberInWordsRus
 {
     private const string Minus = "минус";
 
-    private const char Space = ' ';
-
-    private const ushort Thousand = 1000;
-
-    private const ushort Hundred = 100;
-
-    private const ushort Ten = 10;
-
-    private const ushort Twenty = 20;
-
     private const string ZeroText = "ноль";
 
     private static readonly RusWord EmptyRusWord
