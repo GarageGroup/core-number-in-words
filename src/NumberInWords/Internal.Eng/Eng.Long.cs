@@ -5,6 +5,32 @@ namespace GarageGroup;
 
 partial class NumberInWordsEng
 {
+    public static string BuildEngText(long number, EngWord? intWord)
+    {
+        var intTextBuilder = new StringBuilder();
+        var isPositive = number >= 0;
+
+        var unsignedNumber = GetAbsValue(number);
+        var dimensionsWords = GetIntDimensions(hasFractional: false, intWord: intWord);
+
+        var positiveText = intTextBuilder
+            .Append(unsignedNumber, dimensionsWords, true)
+            .ToString();
+
+        return isPositive ? positiveText : $"{Minus} {positiveText}";
+    }
+
+    private static ulong GetAbsValue(long number)
+    {
+        if (number >= 0)
+        {
+            return (ulong)number;
+        }
+
+        var abs = -(number + 1);
+        return (ulong)abs + 1UL;
+    }
+
     private static StringBuilder Append(
         this StringBuilder textBuilder, ulong number, IEnumerator<EngWord> dimensionsWords, bool isEnd)
     {
